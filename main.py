@@ -1,4 +1,4 @@
-from flask import Flask, url_for
+from flask import Flask, url_for, request
 
 app = Flask(__name__)
 
@@ -7,38 +7,112 @@ app = Flask(__name__)
 def title():
     return "Missiya"
 
-@app.route('/promotion_image')
-def choice():
-    return f'''<!doctype html>
-                    <html lang="en">
-                      <head>
-                        <meta charset="utf-8">
-                        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-                        <link rel="stylesheet" type="text/css" href="{url_for('static', filename='css/style.css')}" />
-                      </head>
-                        <title>Колонизация</title>
-                      </head>
-                      <body>
-                        <h1>Жди нас Марс!</h1>
-                        <img src="{url_for('static', filename='img/mars.png')}" 
-           alt="здесь должна была быть картинка, но не нашлась">
-                         <div class="alert alert-secondary" role="alert">
-                            <h4 class="alert-heading">Человечество вырастает из детства.</h4>
-                        </div>
-                         <div class="alert alert-success" role="alert">
-                            <h4 class="alert-heading">Человечеству мала одна планета.</h4>
-                        </div>
-                        <div class="alert alert-secondary" role="alert">
-                            <h4 class="alert-heading">Мы сделаем обитаемыми безжизненные пока планеты<./h4>
-                        </div>
-                        <div class="alert alert-warning" role="alert">
-                            <h4 class="alert-heading">И начнём с Марса!</h4>
-                        </div>
-                        <div class="alert alert-danger" role="alert">
-                            <h4 class="alert-heading">Присоединяйся!</h4>
-                        </div>
-                      </body>
-                    </html>'''
+@app.route('/astronaut_selection', methods=['POST', 'GET'])
+def astronaut_selection():
+    if request.method == 'GET':
+        return f'''<!doctype html>
+                        <html lang="en">
+                          <head>
+                            <meta charset="utf-8">
+                            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+                            <link rel="stylesheet"
+                            href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css"
+                            integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1"
+                            crossorigin="anonymous">
+                            <link rel="stylesheet" type="text/css" href="{url_for('static', filename='css/style.css')}" />
+                            <title>Отбор астронавтов</title>
+                          </head>
+                          <body>
+                            <h1 align="center">Анкета претендента</h1>
+                            <h4 align="center">на участие в миссии</h4>
+                            <div>
+                                <form class="login_form" method="post">
+                                    <input type="surname" class="form-control" id="surname" placeholder="Введите фамилию" name="surname">
+                                    <input type="name" class="form-control" id="name" placeholder="Введите имя" name="name">
+                                    <p></p>
+                                    <input type="email" class="form-control" id="email" aria-describedby="emailHelp" placeholder="Введите адрес почты" name="email">
+                                    <div class="form-group">
+                                        <label for="classSelect">Какое у вас образование?</label>
+                                        <select class="form-control" id="classSelect" name="education">
+                                          <option>Начальное</option>
+                                          <option>Основное</option>
+                                          <option>Среднее</option>
+                                          <option>Среднее профессиональное</option>
+                                          <option>Высшее</option>
+                                        </select>
+                                     </div>
+                                     <p></p>
+                                     <div class="form-group">
+                                        <label for="form-check">Какие у вас есть профессии?</label>
+                                        <div class="form-check">
+                                          <input class="form-check-input" type="checkbox" name="job" id="engineer" value="engineer">
+                                          <label class="form-check-label" for="engineer">
+                                            Инженер
+                                          </label>
+                                        </div>
+                                        <div class="form-check">
+                                          <input class="form-check-input" type="checkbox" name="job" id="doctor" value="doctor">
+                                          <label class="form-check-label" for="doctor">
+                                            Врач
+                                          </label>
+                                        </div>
+                                        <div class="form-check">
+                                          <input class="form-check-input" type="checkbox" name="job" id="pilot" value="pilot">
+                                          <label class="form-check-label" for="pilot">
+                                            Пилот
+                                          </label>
+                                        </div>
+                                        <div class="form-check">
+                                          <input class="form-check-input" type="checkbox" name="job" id="geologist" value="geologist">
+                                          <label class="form-check-label" for="geologist">
+                                            Геолог
+                                          </label>
+                                        </div>
+                                        <div class="form-check">
+                                          <input class="form-check-input" type="checkbox" name="job" id="meteorologist" value="meteorologist">
+                                          <label class="form-check-label" for="meteorologist">
+                                            Метеоролог
+                                          </label>
+                                        </div>
+                                    </div>
+                                    <p></p>
+                                     <div class="form-group">
+                                        <label for="form-check">Укажите пол</label>
+                                        <div class="form-check">
+                                          <input class="form-check-input" type="radio" name="sex" id="male" value="male" checked>
+                                          <label class="form-check-label" for="male">
+                                            Мужской
+                                          </label>
+                                        </div>
+                                        <div class="form-check">
+                                          <input class="form-check-input" type="radio" name="sex" id="female" value="female">
+                                          <label class="form-check-label" for="female">
+                                            Женский
+                                          </label>
+                                        </div>
+                                    </div>
+                                    <p></p>
+                                    <div class="form-group">
+                                        <label for="about">Почему вы хотите принять участие в миссии?</label>
+                                        <textarea class="form-control" id="about" rows="3" name="about"></textarea>
+                                    </div>
+                                    <p></p>
+                                    <div class="form-group">
+                                        <label for="photo">Приложите фотографию</label>
+                                        <input type="file" class="form-control-file" id="photo" name="file">
+                                    </div>
+                                    <p></p>
+                                    <div class="form-group form-check">
+                                        <input type="checkbox" class="form-check-input" id="acceptRules" name="accept">
+                                        <label class="form-check-label" for="acceptRules">Готовы остаться на Марсе?</label>
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Отправить</button>
+                                </form>
+                            </div>
+                          </body>
+                        </html>'''
+    elif request.method == 'POST':
+        return "Форма отправлена"
 
 
 if __name__ == '__main__':
