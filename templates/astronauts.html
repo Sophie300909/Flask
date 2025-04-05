@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+{% extends "base.html" %}
+
+{% block content %}
+<body>
+<h1 align="center">Размещение по каютам</h1>
+{% set user_list = astronauts %}
+    {% for user in user_list %}
+    <p>{{ user }} - Каюта № {{ loop.index }}{% if loop.first %} - капитан корабля {% endif %}
+    </p>
+    {% endfor %}
+</body>
+{% endblock %}
+</html>
