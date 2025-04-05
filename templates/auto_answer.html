@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends "base.html" %}
+
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Анкета</title>
+</head>
+<body>
+    {% for k, v in answers.items() %}
+        <p>{{k}}{{v}}</p>
+    {% endfor %}
+</body>
+{% endblock %}
+</html>
