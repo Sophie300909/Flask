@@ -7,12 +7,21 @@
 
 {% block content %}
 <body>
-<h1 align="center">Размещение по каютам</h1>
-{% set user_list = astronauts %}
-    {% for user in user_list %}
-    <p>{{ user }} - Каюта № {{ loop.index }}{% if loop.first %} - капитан корабля {% endif %}
-    </p>
-    {% endfor %}
+<h1 align="center">Оформление каюты</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Цвет стен</th>
+      <th scope="col">Эмблема</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td width="500px" style="background-color:{{color}}"></td>
+      <td width="500px" height="500px"><img src="{{photo}}" width="100%" height="500px" alt=""></td>
+    </tr>
+  </tbody>
+</table>
 </body>
 {% endblock %}
 </html>
