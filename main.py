@@ -1,33 +1,39 @@
-from flask import Flask, render_template, redirect
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
-from wtforms.validators import DataRequired
+import os
+import sys
 
+import pygame
+import requests
 
-class LoginForm(FlaskForm):
-    id = StringField('Id астронавта', validators=[DataRequired()])
-    password = PasswordField('Пароль астронавта', validators=[DataRequired()])
-    captain_id = StringField('Id капитана', validators=[DataRequired()])
-    captain_password = PasswordField('Пароль капитана', validators=[DataRequired()])
-    submit = SubmitField('Доступ')
+server_address = 'https://static-maps.yandex.ru/v1?'
+api_key = 'f3a0fe3a-b07e-4840-a1da-06f18b2ddf13'
+ll_spn = "ll=37.622169,55.750493&spn=0.25,0.25&pt=37.707593,55.812307,pm2dom1~37.559379,55.791243,pm2dom2~37.549354,55.713248,pm2dom3"
+# Готовим запрос.
 
-app = Flask(__name__)
-app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
+map_request = f"{server_address}{ll_spn}&apikey={api_key}"
+print(map_request)
+response = requests.get(map_request)
 
+if not response:
+    print("Ошибка выполнения запроса:")
+    print(map_request)
+    print("Http статус:", response.status_code, "(", response.reason, ")")
+    sys.exit(1)
 
-@app.route('/<word>')
-@app.route('/index/<word>')
-def index(word):
-    return render_template('base.html', title=word)
+# Запишем полученное изображение в файл.
+map_file = "map.png"
+with open(map_file, "wb") as file:
+    file.write(response.content)
 
+# Инициализируем pygame
+pygame.init()
+screen = pygame.display.set_mode((600, 450))
+# Рисуем картинку, загружаемую из только что созданного файла.
+screen.blit(pygame.image.load(map_file), (0, 0))
+# Переключаем экран и ждем закрытия окна.
+pygame.display.flip()
+while pygame.event.wait().type != pygame.QUIT:
+    pass
+pygame.quit()
 
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        return redirect('/success')
-    return render_template('login.html', title='Аварийный доступ', form=form)
-
-
-if __name__ == '__main__':
-    app.run(port=8080, host='127.0.0.1')
+# Удаляем за собой файл с изображением.
+os.remove(map_file)
