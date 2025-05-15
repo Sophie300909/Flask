@@ -6,10 +6,11 @@ import requests
 
 server_address = 'https://static-maps.yandex.ru/v1?'
 api_key = 'f3a0fe3a-b07e-4840-a1da-06f18b2ddf13'
-ll_spn = "ll=37.622169,55.750493&spn=0.25,0.25&pt=37.707593,55.812307,pm2dom1~37.559379,55.791243,pm2dom2~37.549354,55.713248,pm2dom3"
+ll_spn = "ll=30.097431,59.908131&spn=0.2,0.2"
 # Готовим запрос.
 
-map_request = f"{server_address}{ll_spn}&apikey={api_key}"
+coords = "29.914783,59.891573,30.105881,59.944074,30.237944,59.916487,30.266268,59.919073,30.275489,59.930952,30.310165,59.941203"
+map_request = f"{server_address}{ll_spn}&apikey={api_key}&pl={coords}"
 print(map_request)
 response = requests.get(map_request)
 
